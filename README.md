@@ -4,14 +4,10 @@ Projeto final da matéria de Machine Learning, no curso de Engenharia de Softwar
 
 O objetivo deste projeto é criar um modelo de Machine Learning, onde seja possível detectar e validar e-mails considerados como Spam. 
 
-### Equipe 
+### Equipe:
 
-Kauã Machado Grathwohl 
+- Kauã Machado Grathwohl [@KauaGrathwohl](https://github.com/KauaGrathwohl)
+- Ana Julia Santinoni [@anasantinoni](https://github.com/anasantinoni)
+- Laura Silveira Gonçalves [@laurasilveirag](https://github.com/laurasilveirag)
+- Janaina Carlos João [@janainacarlos](https://github.com/janainacarlos)
 
-Laura Silveira 
-
-Ana Santinoni
-
-Odin Stampede
-
-Janaina Carlos
