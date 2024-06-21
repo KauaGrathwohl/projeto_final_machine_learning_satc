@@ -1,7 +1,7 @@
 import requests
 
 url = 'http://localhost:5000/predict'
-data = {'email': 'Texto do seu email aqui'}
+data = {'email': 'Você ganhou um prêmio! Clique aqui para resgatar!'}
 
 # Envia a requisição POST
 

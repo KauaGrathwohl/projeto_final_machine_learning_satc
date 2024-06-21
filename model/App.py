@@ -1,13 +1,14 @@
 import pandas as pd
 from deep_translator import GoogleTranslator
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 # Carrega os dados do arquivo CSV
 
-df = pd.read_csv('../database/spam.csv', encoding='latin-1')
+df = pd.read_csv('../data/spam.csv', encoding='latin-1')
 
 # Limpa os dados nulos, se houver
 
@@ -46,6 +47,10 @@ model.fit(X_train_features, Y_train)
 # Inicialização do aplicativo Flask
 
 app = Flask(__name__)
+
+# Configuração do CORS
+
+CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
 
 
 # Rota para receber POST com o email e retornar se é spam ou não
