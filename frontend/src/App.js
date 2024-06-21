@@ -16,6 +16,7 @@ function App() {
       if (response.status === 200) {
         setPredictionResult(response.data.prediction);
         setError('');
+        setEmailText('');
       } else {
         setError('Erro ao prever spam. Resposta inválida da API.');
       }
@@ -23,6 +24,17 @@ function App() {
       console.error('Erro ao prever spam:', error);
       setError('Erro ao prever spam. Verifique o console para mais detalhes.');
     }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      predictSpam();
+    }
+  };
+
+  const handleNewPrediction = () => {
+    setPredictionResult('');
+    setError('');
   };
 
   return (
@@ -36,16 +48,18 @@ function App() {
           placeholder="Digite seu email aqui..."
           value={emailText}
           onChange={(e) => setEmailText(e.target.value)}
+          onKeyPress={handleKeyPress}
         ></textarea>
       </div>
       <button onClick={predictSpam}>Verificar Spam</button>
-      <div id="predictionResult" className="result">
+      <div className="result">
         {error && <p className="error">{error}</p>}
         {predictionResult && (
-          <>
+          <div>
             <h2>Resultado da Predição:</h2>
             <p>{predictionResult}</p>
-          </>
+            <button onClick={handleNewPrediction}>Novo Predict</button>
+          </div>
         )}
       </div>
     </div>
