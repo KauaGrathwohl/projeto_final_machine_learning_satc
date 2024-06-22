@@ -22,7 +22,7 @@ O projeto foi desenvolvido em Python, utilizando a biblioteca Pandas para manipu
 
 ```
 
-├── dataset
+├── data
 │   ├── spam.csv
 
 ├── frontend
@@ -34,8 +34,9 @@ O projeto foi desenvolvido em Python, utilizando a biblioteca Pandas para manipu
 │   ├── package-lock.json
 
 ├── model
-│   ├── Application.py
-│   ├── ApplicationTest.py
+│   ├── notebooks
+│   ├── App.py
+│   ├── AppTest.py
 
 ├── venv
 
