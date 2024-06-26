@@ -13,6 +13,11 @@ O objetivo deste projeto é criar um modelo de Machine Learning, onde seja poss�
 - Janaina Carlos João [@janainacarlos](https://github.com/janainacarlos)
 
 
+### Link para a apresentação feita no Canva:
+
+Link: https://www.canva.com/design/DAGJGYecRwQ/C0b_bfEoh-QoTomvn-QH0Q/edit
+
+
 # Funcionamento do projeto:
 
 O projeto foi desenvolvido em Python, utilizando a biblioteca Pandas para manipulação dos dados e a biblioteca Scikit-learn para a criação do modelo de Machine Learning.
