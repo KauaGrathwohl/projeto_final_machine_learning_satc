@@ -4,10 +4,11 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import accuracy_score
+from sklearn.pipeline import Pipeline
 
 # Carrega os dados do arquivo CSV
-
 df = pd.read_csv('../data/spam.csv', encoding='latin-1')
 
 # Limpa os dados nulos, se houver
@@ -39,10 +40,42 @@ X_test_features = feature_extraction.transform(X_test)
 Y_train = Y_train.astype('int')
 Y_test = Y_test.astype('int')
 
-# Treinamento do modelo de Regressão Logística
+# Pipeline inicial com Regressão Logística
 
-model = LogisticRegression()
-model.fit(X_train_features, Y_train)
+model = Pipeline([
+    ('tfidf', TfidfVectorizer(min_df=1, stop_words='english', lowercase=True)),
+    ('logreg', LogisticRegression())
+])
+
+# Definição do grid de parâmetros para GridSearchCV
+
+param_grid = {
+    'tfidf__min_df': [1, 2],
+    'tfidf__ngram_range': [(1, 1), (1, 2)],
+    'logreg__C': [0.1, 1.0, 10.0]
+}
+
+# Configuração do GridSearchCV
+
+grid_search = GridSearchCV(model, param_grid, cv=5, verbose=1, n_jobs=-1)
+
+# Executa o GridSearchCV para encontrar os melhores parâmetros
+
+grid_search.fit(X_train, Y_train)
+
+# Melhores parâmetros encontrados pelo GridSearchCV
+
+best_params = grid_search.best_params_
+best_model = grid_search.best_estimator_
+
+print(f'Os melhores parâmetros encontrados foram: {best_params}')
+
+# Avaliação da precisão nos dados de teste
+
+Y_pred = best_model.predict(X_test)
+accuracy = accuracy_score(Y_test, Y_pred)
+
+print(f'A precisão do modelo nos dados de teste é: {accuracy:.2f}')
 
 # Inicialização do aplicativo Flask
 
@@ -59,29 +92,21 @@ CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
 def predict():
     try:
         # Recebe o email enviado via POST
-
         content = request.json
         email_text = content['email']
 
         # Traduz o email para inglês
-
         translator = GoogleTranslator(source='pt', target='en')
         translated_text = translator.translate(email_text)
 
-        # Extrai features do email traduzido
-
-        input_data_features = feature_extraction.transform([translated_text])
-
-        # Realiza a previsão
-
-        prediction = model.predict(input_data_features)
+        # Realiza a previsão com o melhor modelo encontrado
+        prediction = best_model.predict([translated_text])
 
         # Retorna o resultado
-
         if prediction[0] == 1:
-            result = 'Não spam'
+            result = 'Não Spam'
         else:
-            result = 'spam'
+            result = 'Spam'
 
         return jsonify({'prediction': result}), 200
 

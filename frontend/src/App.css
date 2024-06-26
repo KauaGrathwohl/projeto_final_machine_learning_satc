@@ -39,7 +39,7 @@ button:hover {
 
 .result {
   margin-top: 20px;
-  text-align: left; /* Alinha o texto do resultado à esquerda */
+  text-align: left;
 }
 
 .error {
